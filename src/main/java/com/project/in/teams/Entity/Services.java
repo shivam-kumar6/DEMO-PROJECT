@@ -22,7 +22,27 @@ public class Services {
     @Column(name="service_description")
     private String service_description;
 
-//    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "services")
-//    private team team;
+    public Long getId() {
+        return id;
+    }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getService_description() {
+        return service_description;
+    }
+
+    public void setService_description(String service_description) {
+        this.service_description = service_description;
+    }
 }

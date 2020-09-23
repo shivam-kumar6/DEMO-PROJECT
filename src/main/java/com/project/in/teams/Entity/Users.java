@@ -39,4 +39,5 @@ public class Users {
 
     @Column(name = "password")
     private String password;
+
 }
