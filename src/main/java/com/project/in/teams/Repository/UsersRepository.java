@@ -8,11 +8,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<Users,Long> {
+public interface UsersRepository extends JpaRepository<Users,Long> {
    public List<Users> findByEmail(String name);
 
   public Users getById(Long id);
 
    public void deleteById(Long Id);
 
+   public Users findFirstByEmail(String email);
 }
