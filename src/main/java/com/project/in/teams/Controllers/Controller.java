@@ -1,9 +1,8 @@
 package com.project.in.teams.Controllers;
 
-import com.project.in.teams.Entity.Team;
 import com.project.in.teams.Repository.ServiceRepository;
 import com.project.in.teams.Repository.TeamRepository;
-import com.project.in.teams.Repository.UserRepository;
+import com.project.in.teams.Repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +17,7 @@ public class Controller {
     private TeamRepository teamRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private UsersRepository usersRepository;
 
 //    @PostMapping(value = "team/")
 //    public Team save(@RequestBody Team t){

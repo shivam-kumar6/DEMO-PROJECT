@@ -1,5 +1,6 @@
 package com.project.in.teams.Entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,7 +12,7 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@JsonInclude
 @Table(name="users")
 public class Users {
     @Id
@@ -35,4 +36,7 @@ public class Users {
 
     @Column(name="phone_no")
     private String phone_no;
+
+    @Column(name = "password")
+    private String password;
 }
