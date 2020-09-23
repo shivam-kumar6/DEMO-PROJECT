@@ -22,26 +22,29 @@ public class UsersController {
     }
 
     @GetMapping("/email/{email}")
-    public List<Users> find_by_email(@PathVariable(name = "email") String email){
-        List<Users> users = usersRepository.findByEmail(email);
+    public Users find_by_email(@PathVariable(name = "email") String email){
+        Users users = usersRepository.findByEmail(email);
         return users;
     }
 
     @GetMapping("/{Id}")
-    public Optional<Users> find_by_id(@PathVariable(name = "Id") Long Id){
-        Optional<Users> user= usersRepository.findById(Id);
+    public Users find_by_id(@PathVariable(name = "Id") Long Id){
+        Users user= usersRepository.getById(Id);
         return user;
     }
 
 
     @PostMapping("/")
     public Users add_user(@RequestBody Users u){
+
         return usersRepository.save(u);
     }
 
     @DeleteMapping("/{id}")
     public void delete_user(@PathVariable(name="id") Long id){
-        this.usersRepository.deleteById(id);
+
+        Users user=this.usersRepository.getById(id);
+        this.usersRepository.delete(user);
     }
 
     @PutMapping("/{id}")
@@ -67,6 +70,12 @@ public class UsersController {
         }
         usersRepository.save(user);
         return user;
+    }
+
+
+    @GetMapping("/get_team_id/{id}")
+    public Long get_team_id(@PathVariable(name="id") Long id){
+         return usersRepository.getUt_fkById(id);
     }
 
 }

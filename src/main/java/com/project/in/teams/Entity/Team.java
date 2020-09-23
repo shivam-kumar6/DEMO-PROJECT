@@ -21,7 +21,8 @@ public class Team {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="name")
+
+    @Column(name="name",unique = true)
     private String name;
 
     @Column(name="team_description")

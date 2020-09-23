@@ -31,13 +31,16 @@ public class Users {
     @Column(name="designation")
     private String designation;
 
-    @Column(name="email")
+    @Column(name="email",unique = true,nullable = false)
     private String email;
 
-    @Column(name="phone_no")
+    @Column(name="phone_no",unique = true,nullable = false)
     private String phone_no;
 
     @Column(name = "password")
     private String password;
+
+    @Column(name = "ut_fk")
+    private Long ut_fk;
 
 }
