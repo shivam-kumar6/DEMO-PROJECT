@@ -16,11 +16,14 @@ public class Services {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="name")
+    @Column(name="name",unique = true,nullable = false)
     private String name;
 
     @Column(name="service_description")
     private String service_description;
+
+    @Column(name="st_fk")
+    private Long st_fk;
 
     public Long getId() {
         return id;
