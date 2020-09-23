@@ -1,6 +1,6 @@
 package com.project.in.teams.Controllers;
 
-import com.project.in.teams.Entity.Manager;
+import com.project.in.teams.exception.*;
 import com.project.in.teams.Entity.Services;
 import com.project.in.teams.Entity.Team;
 import com.project.in.teams.Entity.Users;
@@ -33,6 +33,7 @@ public class TeamController {
     //saving a team
     @PostMapping("/")
     public Team save_team(@RequestBody Team team){
+        //validate
         return teamRepository.save(team);
     }
 
@@ -41,7 +42,7 @@ public class TeamController {
     public Team get_team_by_name(@PathVariable(name="name") String name){
         Team team = teamRepository.findFirstByName(name);
         if(team==null){
-            return null;
+            throw new UnprocessableEntity("No Such team");
         }
         return team;
     }
@@ -59,8 +60,7 @@ public class TeamController {
                             @RequestParam(name = "password", defaultValue = "null") String password){
         Team team = teamRepository.findFirstByName(name);
         if(team ==  null){
-            //throw exception
-            return null;
+            throw new UnprocessableEntity("No Such team");
         }
         if(!description.equals("null")) {
             team.setDescription(description);
@@ -76,8 +76,7 @@ public class TeamController {
     public Team add_user(@PathVariable(name = "name") String name,@RequestBody Users users){
         Team team = teamRepository.findFirstByName(name);
         if(team ==  null){
-            //throw exception
-            return null;
+            throw new UnprocessableEntity("No Such team");
         }
         List<Users> list = team.getUsersList();
         list.add(users);
@@ -90,8 +89,7 @@ public class TeamController {
     public Team add_user(@PathVariable(name = "name") String name,@RequestBody Services services){
         Team team = teamRepository.findFirstByName(name);
         if(team ==  null){
-            //throw exception
-            return null;
+            throw new UnprocessableEntity("No Such team");
         }
         List<Services> list = team.getServicesList();
         list.add(services);
@@ -104,8 +102,7 @@ public class TeamController {
     public List<Users> get_users(@PathVariable(name = "name") String name){
         Team team = teamRepository.findFirstByName(name);
         if(team ==  null){
-            //throw exception
-            return null;
+            throw new UnprocessableEntity("No Such team");
         }
         return team.getUsersList();
     }
@@ -115,8 +112,7 @@ public class TeamController {
     public List<Services> get_services(@PathVariable(name = "name") String name){
         Team team = teamRepository.findFirstByName(name);
         if(team ==  null){
-            //throw exception
-            return null;
+            throw new UnprocessableEntity("No Such team");
         }
         return team.getServicesList();
     }
