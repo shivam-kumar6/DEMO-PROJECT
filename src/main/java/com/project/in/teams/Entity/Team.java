@@ -38,23 +38,4 @@ public class Team {
     @Column(name = "password")
     private String password;
 
-
-
-//    public List<User> getUserList() {
-//        return userList;
-//    }
-//
-//    public List<Service> getServiceList() {
-//        return serviceList;
-//    }
-//
-//    public void setServicesList(List<Service> serviceList) {
-//        this.serviceList = serviceList;
-//    }
-//
-//    public void setUsersList(List<User> userList) {
-//        this.userList = userList;
-//    }
-
-
 }

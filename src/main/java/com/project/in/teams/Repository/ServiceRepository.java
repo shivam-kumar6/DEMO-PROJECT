@@ -6,4 +6,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ServiceRepository extends JpaRepository<Services,Long> {
+
+    public Services getById(Long id);
+
+    public void deleteById(Long id);
+
 }
