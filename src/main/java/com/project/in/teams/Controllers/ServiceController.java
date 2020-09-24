@@ -22,15 +22,18 @@ public class ServiceController {
 
     @PostMapping("/")
     public Services add_service(@RequestBody Services s){
-        //Validate
+
         return serviceRepository.save(s);
     }
 
     @DeleteMapping("/{id}")
     public void delete_service(@PathVariable(name="id") Long id){
 
-        //for throwing exceptions, first  find the service, then delete
-        this.serviceRepository.deleteById(id);
+        Services service = serviceRepository.getById(id);
+        if(service==null){
+            throw new UnprocessableEntity("No Such service");
+        }
+        this.serviceRepository.delete(service);
     }
 
     @PutMapping("/{id}")
@@ -39,9 +42,6 @@ public class ServiceController {
         if(service == null ){
             throw new UnprocessableEntity("No such service");
         }
-
-        //i think below logic wont work
-        //Also validate the  incoming service
         if(s.getName()!=null)
         service.setName(s.getName());
         if(s.getService_description()!=null)
