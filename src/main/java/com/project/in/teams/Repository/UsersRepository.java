@@ -18,4 +18,8 @@ public interface UsersRepository extends JpaRepository<Users,Long> {
 
    @Query("SELECT u.ut_fk FROM Users u where u.id=?1")
    public Long getUt_fkById(Long id);
+
+
+   @Query("SELECT U FROM Users U WHERE CONCAT(U.first_name,' ',U.last_name,' ',U.phone_no,' ',U.email) LIKE %?1%")
+    public List<Users> advancedSearch(String keyword);
 }

@@ -1,4 +1,6 @@
 package com.project.in.teams.Controllers;
+import com.project.in.teams.Entity.Team;
+import com.project.in.teams.Repository.TeamRepository;
 import com.project.in.teams.exception.*;
 import com.project.in.teams.Entity.Services;
 import com.project.in.teams.Entity.Users;
@@ -15,6 +17,9 @@ public class UsersController {
 
     @Autowired
     private UsersRepository usersRepository;
+
+    @Autowired
+    private TeamRepository teamRepository;
 
     @GetMapping("/")
     public List<Users> get_user(){
@@ -87,6 +92,27 @@ public class UsersController {
     @GetMapping("/get_team_id/{id}")
     public Long get_team_id(@PathVariable(name="id") Long id){
          return usersRepository.getUt_fkById(id);
+    }
+
+
+    @GetMapping("/get_team_name/{email}")
+    public String get_team_email(@PathVariable(name="email") String email){
+        Users users = usersRepository.findFirstByEmail(email);
+        if(users == null){
+            throw new UnprocessableEntity("No such user");
+        }
+        Long team_id = users.getUt_fk();
+        Team team =  teamRepository.findFirstById(team_id);
+        return team.getName();
+    }
+
+    @GetMapping("/advancedSearch/{keyword}")
+    public List<Users> advancedSearch(@PathVariable(name = "keyword") String keyword){
+        List<Users> result = usersRepository.advancedSearch(keyword);
+        if(result.size()==0){
+            throw new UnprocessableEntity("No matching user");
+        }
+        return result;
     }
 
 }
