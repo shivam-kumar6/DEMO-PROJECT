@@ -4,8 +4,6 @@ package com.project.in.teams.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-//import javax.jws.soap.SOAPBinding;
 import javax.persistence.*;
 
 @Data
@@ -20,11 +18,11 @@ public class Manager {
     private Long id;
 
     @OneToOne(targetEntity = Team.class)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "mt_id")
     private Team team;
 
     @OneToOne(targetEntity = Users.class)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "mu_id")
     private Users users;
 
 }

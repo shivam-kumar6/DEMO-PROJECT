@@ -1,5 +1,6 @@
 package com.project.in.teams.Controllers;
 
+import com.project.in.teams.exception.*;
 import com.project.in.teams.Entity.Services;
 import com.project.in.teams.Repository.ServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,17 +22,26 @@ public class ServiceController {
 
     @PostMapping("/")
     public Services add_service(@RequestBody Services s){
+        //Validate
         return serviceRepository.save(s);
     }
 
     @DeleteMapping("/{id}")
     public void delete_service(@PathVariable(name="id") Long id){
+
+        //for throwing exceptions, first  find the service, then delete
         this.serviceRepository.deleteById(id);
     }
 
     @PutMapping("/{id}")
     public Services update_service(@PathVariable(name="id") Long id,@RequestBody Services s){
         Services service = serviceRepository.getById(id);
+        if(service == null ){
+            throw new UnprocessableEntity("No such service");
+        }
+
+        //i think below logic wont work
+        //Also validate the  incoming service
         if(s.getName()!=null)
         service.setName(s.getName());
         if(s.getService_description()!=null)
