@@ -1,5 +1,5 @@
 package com.project.in.teams.Controllers;
-
+import com.project.in.teams.exception.*;
 import com.project.in.teams.Entity.Services;
 import com.project.in.teams.Entity.Users;
 import com.project.in.teams.Repository.UsersRepository;
@@ -24,33 +24,43 @@ public class UsersController {
     @GetMapping("/email/{email}")
     public Users find_by_email(@PathVariable(name = "email") String email){
         Users users = usersRepository.findByEmail(email);
+        if(users == null ){
+            throw new UnprocessableEntity("No such user");
+        }
         return users;
     }
 
     @GetMapping("/{Id}")
     public Users find_by_id(@PathVariable(name = "Id") Long Id){
         Users user= usersRepository.getById(Id);
+        if(user == null ){
+            throw new UnprocessableEntity("No such user");
+        }
         return user;
     }
 
 
     @PostMapping("/")
     public Users add_user(@RequestBody Users u){
-//
 
         return usersRepository.save(u);
     }
 
     @DeleteMapping("/{id}")
     public void delete_user(@PathVariable(name="id") Long id){
-
         Users user=this.usersRepository.getById(id);
+        if(user == null ){
+            throw new UnprocessableEntity("No such user");
+        }
         this.usersRepository.delete(user);
     }
 
     @PutMapping("/{id}")
     public Users update_user(@PathVariable(name="id") Long id,@RequestBody Users u){
         Users user = usersRepository.getById(id);
+        if(user == null ){
+            throw new UnprocessableEntity("No such user");
+        }
         if(u.getFirst_name()!=null){
             user.setFirst_name(u.getFirst_name());
         }
