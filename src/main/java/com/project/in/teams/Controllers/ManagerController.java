@@ -72,7 +72,6 @@ public class ManagerController {
         if(team==null){
             throw new UnprocessableEntity("No Such Team");
         }
-
         if(!team.getUsersList().contains(users)){
             throw new UnprocessableEntity("First add user to the team");
         }
