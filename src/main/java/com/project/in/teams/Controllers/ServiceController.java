@@ -16,18 +16,27 @@ public class ServiceController {
     private ServiceRepository serviceRepository;
 
     @GetMapping("/")
-    public List<Services> get_services(){
+    public List<Services> getServices(){
         return serviceRepository.findAll();
     }
 
     @PostMapping("/")
-    public Services add_service(@RequestBody Services s){
+    public Services addService(@RequestBody Services s){
 
         return serviceRepository.save(s);
     }
 
+    @GetMapping("/{id}")
+    public Services getServiceById(@PathVariable(name="id") Long id){
+        Services service = serviceRepository.getById(id);
+        if(service==null){
+            throw new UnprocessableEntity("No Such service");
+        }
+        return service;
+    }
+
     @DeleteMapping("/{id}")
-    public void delete_service(@PathVariable(name="id") Long id){
+    public void deleteService(@PathVariable(name="id") Long id){
 
         Services service = serviceRepository.getById(id);
         if(service==null){
@@ -37,7 +46,7 @@ public class ServiceController {
     }
 
     @PutMapping("/{id}")
-    public Services update_service(@PathVariable(name="id") Long id,@RequestBody Services s){
+    public Services updateService(@PathVariable(name="id") Long id,@RequestBody Services s){
         Services service = serviceRepository.getById(id);
         if(service == null ){
             throw new UnprocessableEntity("No such service");
