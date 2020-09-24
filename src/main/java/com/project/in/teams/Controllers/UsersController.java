@@ -36,7 +36,10 @@ public class UsersController {
 
     @PostMapping("/")
     public Users add_user(@RequestBody Users u){
-
+//        if((u.getPhone_no().length()!=10)){
+//
+//        }
+//        if(u.getEmail().substring(u.getEmail().length()-))
         return usersRepository.save(u);
     }
 
