@@ -6,6 +6,7 @@ import com.project.in.teams.Repository.ServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -16,38 +17,64 @@ public class ServiceController {
     private ServiceRepository serviceRepository;
 
     @GetMapping("/")
-    public List<Services> get_services(){
+    public List<Services> getServices(){
         return serviceRepository.findAll();
     }
 
     @PostMapping("/")
-    public Services add_service(@RequestBody Services s){
+
+    public Services add_service(@RequestBody Services service){
         //Validate
-        return serviceRepository.save(s);
+        try{
+            serviceRepository.save(service);
+            return service;
+        }
+        catch (Exception exception){
+            throw new UnprocessableEntity(exception.getMessage());
+        }
+
+    }
+
+    @GetMapping("/{id}")
+    public Services getServiceById(@PathVariable(name="id") Long id){
+        Services service = serviceRepository.getById(id);
+        if(service==null){
+            throw new UnprocessableEntity("No Such service");
+        }
+        return service;
     }
 
     @DeleteMapping("/{id}")
-    public void delete_service(@PathVariable(name="id") Long id){
+    public HashMap<String, Boolean> deleteService(@PathVariable(name="id") Long id){
 
-        //for throwing exceptions, first  find the service, then delete
-        this.serviceRepository.deleteById(id);
+        Services service = serviceRepository.getById(id);
+        if(service==null){
+            throw new UnprocessableEntity("No Such service");
+        }
+        this.serviceRepository.delete(service);
+        HashMap<String, Boolean> response=new HashMap<>();
+        response.put("deleted",Boolean.TRUE);
+        return response;
     }
 
     @PutMapping("/{id}")
-    public Services update_service(@PathVariable(name="id") Long id,@RequestBody Services s){
+    public Services updateService(@PathVariable(name="id") Long id,@RequestBody Services s){
         Services service = serviceRepository.getById(id);
         if(service == null ){
             throw new UnprocessableEntity("No such service");
         }
-
-        //i think below logic wont work
-        //Also validate the  incoming service
         if(s.getName()!=null)
         service.setName(s.getName());
         if(s.getService_description()!=null)
         service.setService_description(s.getService_description());
-        serviceRepository.save(service);
-        return service;
+        try{
+            serviceRepository.save(service);
+            return service;
+        }
+        catch (Exception exception){
+            throw new UnprocessableEntity(exception.getMessage());
+        }
+
     }
 
 }

@@ -12,6 +12,7 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @JsonInclude
 @Table(name="users")
 public class Users {
@@ -30,6 +31,7 @@ public class Users {
 
     @Column(name="designation")
     private String designation;
+
 
     @Column(name="email",unique = true,nullable = false)
     private String email;
