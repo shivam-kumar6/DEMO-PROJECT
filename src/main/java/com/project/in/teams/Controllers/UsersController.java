@@ -1,4 +1,6 @@
 package com.project.in.teams.Controllers;
+import com.project.in.teams.Entity.Team;
+import com.project.in.teams.Repository.TeamRepository;
 import com.project.in.teams.exception.*;
 import com.project.in.teams.Entity.Services;
 import com.project.in.teams.Entity.Users;
@@ -16,6 +18,9 @@ public class UsersController {
 
     @Autowired
     private UsersRepository usersRepository;
+
+    @Autowired
+    private TeamRepository teamRepository;
 
     @GetMapping("/")
     public List<Users> getUser(){
@@ -42,9 +47,17 @@ public class UsersController {
 
 
     @PostMapping("/")
-    public Users addUser(@RequestBody Users u){
 
-        return usersRepository.save(u);
+    public Users add_user(@RequestBody Users u){
+        //validate and throw exception
+        try{
+            return usersRepository.save(u);
+        }
+        catch (Exception exception){
+            throw new UnprocessableEntity(exception.getMessage());
+        }
+
+
     }
 
     @DeleteMapping("/{id}")
@@ -83,14 +96,41 @@ public class UsersController {
         if(u.getGender()!=null){
             user.setGender(u.getGender());
         }
-        usersRepository.save(user);
-        return user;
+        try{
+            usersRepository.save(user);
+            return user;
+        }
+        catch (Exception exception){
+            throw new UnprocessableEntity(exception.getMessage());
+        }
+
     }
 
 
     @GetMapping("/get_team_id/{id}")
     public Long getTeamId(@PathVariable(name="id") Long id){
          return usersRepository.getUt_fkById(id);
+    }
+
+
+    @GetMapping("/get_team_name/{email}")
+    public String get_team_email(@PathVariable(name="email") String email){
+        Users users = usersRepository.findFirstByEmail(email);
+        if(users == null){
+            throw new UnprocessableEntity("No such user");
+        }
+        Long team_id = users.getUt_fk();
+        Team team =  teamRepository.findFirstById(team_id);
+        return team.getName();
+    }
+
+    @GetMapping("/advancedSearch/{keyword}")
+    public List<Users> advancedSearch(@PathVariable(name = "keyword") String keyword){
+        List<Users> result = usersRepository.advancedSearch(keyword);
+        if(result.size()==0){
+            throw new UnprocessableEntity("No matching user");
+        }
+        return result;
     }
 
 }

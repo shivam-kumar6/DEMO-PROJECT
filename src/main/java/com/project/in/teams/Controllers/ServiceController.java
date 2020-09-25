@@ -22,9 +22,17 @@ public class ServiceController {
     }
 
     @PostMapping("/")
-    public Services addService(@RequestBody Services s){
 
-        return serviceRepository.save(s);
+    public Services add_service(@RequestBody Services service){
+        //Validate
+        try{
+            serviceRepository.save(service);
+            return service;
+        }
+        catch (Exception exception){
+            throw new UnprocessableEntity(exception.getMessage());
+        }
+
     }
 
     @GetMapping("/{id}")
@@ -59,8 +67,14 @@ public class ServiceController {
         service.setName(s.getName());
         if(s.getService_description()!=null)
         service.setService_description(s.getService_description());
-        serviceRepository.save(service);
-        return service;
+        try{
+            serviceRepository.save(service);
+            return service;
+        }
+        catch (Exception exception){
+            throw new UnprocessableEntity(exception.getMessage());
+        }
+
     }
 
 }

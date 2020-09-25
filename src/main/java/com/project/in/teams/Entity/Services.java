@@ -22,7 +22,6 @@ public class Services {
     @Column(name="service_description")
     private String service_description;
 
-    @Column(name="st_fk")
-    private Long st_fk;
+
 
 }

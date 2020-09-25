@@ -12,4 +12,6 @@ import java.util.List;
 public interface TeamRepository extends JpaRepository<Team, Long> {
 
     public Team findFirstByName(String name);
+
+    public Team findFirstById(Long id);
 }
