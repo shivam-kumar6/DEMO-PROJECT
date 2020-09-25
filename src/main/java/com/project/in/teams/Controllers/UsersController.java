@@ -48,7 +48,13 @@ public class UsersController {
     @PostMapping("/")
     public Users add_user(@RequestBody Users u){
         //validate and throw exception
-        return usersRepository.save(u);
+        try{
+            return usersRepository.save(u);
+        }
+        catch (Exception exception){
+            throw new UnprocessableEntity(exception.getMessage());
+        }
+
     }
 
     @DeleteMapping("/{id}")
@@ -84,8 +90,14 @@ public class UsersController {
         if(u.getGender()!=null){
             user.setGender(u.getGender());
         }
-        usersRepository.save(user);
-        return user;
+        try{
+            usersRepository.save(user);
+            return user;
+        }
+        catch (Exception exception){
+            throw new UnprocessableEntity(exception.getMessage());
+        }
+
     }
 
 

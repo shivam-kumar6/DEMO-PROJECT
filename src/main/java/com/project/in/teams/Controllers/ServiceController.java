@@ -21,9 +21,15 @@ public class ServiceController {
     }
 
     @PostMapping("/")
-    public Services add_service(@RequestBody Services s){
+    public Services add_service(@RequestBody Services service){
         //Validate
-        return serviceRepository.save(s);
+        try{
+            serviceRepository.save(service);
+            return service;
+        }
+        catch (Exception exception){
+            throw new UnprocessableEntity(exception.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")
@@ -46,8 +52,14 @@ public class ServiceController {
         service.setName(s.getName());
         if(s.getService_description()!=null)
         service.setService_description(s.getService_description());
-        serviceRepository.save(service);
-        return service;
+        try{
+            serviceRepository.save(service);
+            return service;
+        }
+        catch (Exception exception){
+            throw new UnprocessableEntity(exception.getMessage());
+        }
+
     }
 
 }

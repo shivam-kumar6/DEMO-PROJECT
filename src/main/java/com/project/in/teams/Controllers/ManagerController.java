@@ -78,6 +78,12 @@ public class ManagerController {
         Manager manager = new Manager();
         manager.setTeam(team);
         manager.setUsers(users);
-        return managerRepository.save(manager);
+        try{
+            return managerRepository.save(manager);
+        }
+        catch (Exception exception){
+            throw new UnprocessableEntity(exception.getMessage());
+        }
+
     }
 }

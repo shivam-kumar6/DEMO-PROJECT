@@ -34,7 +34,12 @@ public class TeamController {
     @PostMapping("/")
     public Team save_team(@RequestBody Team team){
         //validate
-        return teamRepository.save(team);
+        try{
+            return teamRepository.save(team);
+        }
+        catch (Exception exception){
+            throw new UnprocessableEntity(exception.getMessage());
+        }
     }
 
     //Get team by name
@@ -68,7 +73,12 @@ public class TeamController {
         if(!password.equals("null")){
             team.setPassword(password);
         }
-        return teamRepository.save(team);
+        try{
+            return teamRepository.save(team);
+        }
+        catch (Exception exception){
+            throw new UnprocessableEntity(exception.getMessage());
+        }
     }
 
     // Assign user to team
@@ -81,7 +91,12 @@ public class TeamController {
         List<Users> list = team.getUsersList();
         list.add(users);
         team.setUsersList(list);
-        return teamRepository.save(team);
+        try{
+            return teamRepository.save(team);
+        }
+        catch (Exception exception){
+            throw new UnprocessableEntity(exception.getMessage());
+        }
     }
 
     //add service to team
@@ -94,7 +109,13 @@ public class TeamController {
         List<Services> list = team.getServicesList();
         list.add(services);
         team.setServicesList(list);
-        return teamRepository.save(team);
+
+        try{
+            return teamRepository.save(team);
+        }
+        catch (Exception exception){
+            throw new UnprocessableEntity(exception.getMessage());
+        }
     }
 
     //Get users of a team
