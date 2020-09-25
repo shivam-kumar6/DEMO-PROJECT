@@ -6,6 +6,7 @@ import com.project.in.teams.Repository.ServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -36,13 +37,16 @@ public class ServiceController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteService(@PathVariable(name="id") Long id){
+    public HashMap<String, Boolean> deleteService(@PathVariable(name="id") Long id){
 
         Services service = serviceRepository.getById(id);
         if(service==null){
             throw new UnprocessableEntity("No Such service");
         }
         this.serviceRepository.delete(service);
+        HashMap<String, Boolean> response=new HashMap<>();
+        response.put("deleted",Boolean.TRUE);
+        return response;
     }
 
     @PutMapping("/{id}")

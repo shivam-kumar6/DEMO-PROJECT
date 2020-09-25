@@ -6,6 +6,7 @@ import com.project.in.teams.Repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,12 +48,15 @@ public class UsersController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable(name="id") Long id){
+    public HashMap<String, Boolean> deleteUser(@PathVariable(name="id") Long id){
         Users user=this.usersRepository.getById(id);
         if(user == null ){
             throw new UnprocessableEntity("No such user");
         }
+        HashMap<String,Boolean> response=new HashMap<>();
+        response.put("deleted",Boolean.TRUE);
         this.usersRepository.delete(user);
+        return response;
     }
 
     @PutMapping("/{id}")
