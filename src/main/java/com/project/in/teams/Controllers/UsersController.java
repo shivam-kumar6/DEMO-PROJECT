@@ -8,6 +8,7 @@ import com.project.in.teams.Repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,12 +23,12 @@ public class UsersController {
     private TeamRepository teamRepository;
 
     @GetMapping("/")
-    public List<Users> get_user(){
+    public List<Users> getUser(){
         return usersRepository.findAll();
     }
 
     @GetMapping("/email/{email}")
-    public Users find_by_email(@PathVariable(name = "email") String email){
+    public Users findByEmail(@PathVariable(name = "email") String email){
         Users users = usersRepository.findByEmail(email);
         if(users == null ){
             throw new UnprocessableEntity("No such user");
@@ -36,7 +37,7 @@ public class UsersController {
     }
 
     @GetMapping("/{Id}")
-    public Users find_by_id(@PathVariable(name = "Id") Long Id){
+    public Users findUserById(@PathVariable(name = "Id") Long Id){
         Users user= usersRepository.getById(Id);
         if(user == null ){
             throw new UnprocessableEntity("No such user");
@@ -46,6 +47,7 @@ public class UsersController {
 
 
     @PostMapping("/")
+
     public Users add_user(@RequestBody Users u){
         //validate and throw exception
         try{
@@ -55,19 +57,23 @@ public class UsersController {
             throw new UnprocessableEntity(exception.getMessage());
         }
 
+
     }
 
     @DeleteMapping("/{id}")
-    public void delete_user(@PathVariable(name="id") Long id){
+    public HashMap<String, Boolean> deleteUser(@PathVariable(name="id") Long id){
         Users user=this.usersRepository.getById(id);
         if(user == null ){
             throw new UnprocessableEntity("No such user");
         }
+        HashMap<String,Boolean> response=new HashMap<>();
+        response.put("deleted",Boolean.TRUE);
         this.usersRepository.delete(user);
+        return response;
     }
 
     @PutMapping("/{id}")
-    public Users update_user(@PathVariable(name="id") Long id,@RequestBody Users u){
+    public Users updateUser(@PathVariable(name="id") Long id,@RequestBody Users u){
         Users user = usersRepository.getById(id);
         if(user == null ){
             throw new UnprocessableEntity("No such user");
@@ -102,7 +108,7 @@ public class UsersController {
 
 
     @GetMapping("/get_team_id/{id}")
-    public Long get_team_id(@PathVariable(name="id") Long id){
+    public Long getTeamId(@PathVariable(name="id") Long id){
          return usersRepository.getUt_fkById(id);
     }
 
